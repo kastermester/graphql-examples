@@ -1,62 +1,69 @@
 /* tslint:disable */
+/* eslint-disable */
+// @ts-nocheck
 
-import { ConcreteFragment } from "relay-runtime";
-declare const _DetailView_pokemon$ref: unique symbol;
-export type DetailView_pokemon$ref = typeof _DetailView_pokemon$ref;
+import { ReaderFragment } from "relay-runtime";
+import { FragmentRefs } from "relay-runtime";
 export type DetailView_pokemon = {
     readonly name: string | null;
     readonly number: string | null;
     readonly types: ReadonlyArray<string | null> | null;
     readonly image: string | null;
     readonly weaknesses: ReadonlyArray<string | null> | null;
-    readonly " $refType": DetailView_pokemon$ref;
+    readonly " $refType": "DetailView_pokemon";
+};
+export type DetailView_pokemon$data = DetailView_pokemon;
+export type DetailView_pokemon$key = {
+    readonly " $data"?: DetailView_pokemon$data;
+    readonly " $fragmentRefs": FragmentRefs<"DetailView_pokemon">;
 };
 
 
 
-const node: ConcreteFragment = {
-  "kind": "Fragment",
-  "name": "DetailView_pokemon",
-  "type": "Pokemon",
-  "metadata": null,
+const node: ReaderFragment = {
   "argumentDefinitions": [],
+  "kind": "Fragment",
+  "metadata": null,
+  "name": "DetailView_pokemon",
   "selections": [
     {
-      "kind": "ScalarField",
       "alias": null,
+      "args": null,
+      "kind": "ScalarField",
       "name": "name",
-      "args": null,
       "storageKey": null
     },
     {
-      "kind": "ScalarField",
       "alias": null,
+      "args": null,
+      "kind": "ScalarField",
       "name": "number",
-      "args": null,
       "storageKey": null
     },
     {
-      "kind": "ScalarField",
       "alias": null,
+      "args": null,
+      "kind": "ScalarField",
       "name": "types",
-      "args": null,
       "storageKey": null
     },
     {
-      "kind": "ScalarField",
       "alias": null,
+      "args": null,
+      "kind": "ScalarField",
       "name": "image",
-      "args": null,
       "storageKey": null
     },
     {
-      "kind": "ScalarField",
       "alias": null,
-      "name": "weaknesses",
       "args": null,
+      "kind": "ScalarField",
+      "name": "weaknesses",
       "storageKey": null
     }
-  ]
+  ],
+  "type": "Pokemon",
+  "abstractKey": null
 };
 (node as any).hash = '74000da018a206bf9d3947e617afb64d';
 export default node;

@@ -1,13 +1,15 @@
 /* tslint:disable */
+/* eslint-disable */
+// @ts-nocheck
 
 import { ConcreteRequest } from "relay-runtime";
-import { App_query$ref } from "./App_query.graphql";
+import { FragmentRefs } from "relay-runtime";
 export type AppRefetchQueryVariables = {
-    readonly selectedPokemonID: string;
-    readonly pokemonSelected: boolean;
+    selectedPokemonID: string;
+    pokemonSelected: boolean;
 };
 export type AppRefetchQueryResponse = {
-    readonly " $fragmentRefs": App_query$ref;
+    readonly " $fragmentRefs": FragmentRefs<"App_query">;
 };
 export type AppRefetchQuery = {
     readonly response: AppRefetchQueryResponse;
@@ -32,13 +34,6 @@ fragment App_query_2W0AXX on Query {
   }
 }
 
-fragment PokeList_query on Query {
-  pokemons(first: 151) {
-    id
-    ...PokeCell_pokemon
-  }
-}
-
 fragment DetailView_pokemon on Pokemon {
   name
   number
@@ -51,152 +46,161 @@ fragment PokeCell_pokemon on Pokemon {
   id
   image
 }
+
+fragment PokeList_query on Query {
+  pokemons(first: 151) {
+    id
+    ...PokeCell_pokemon
+  }
+}
 */
 
 const node: ConcreteRequest = (function(){
-var v0 = [
-  {
-    "kind": "LocalArgument",
-    "name": "selectedPokemonID",
-    "type": "String!",
-    "defaultValue": null
-  },
-  {
-    "kind": "LocalArgument",
-    "name": "pokemonSelected",
-    "type": "Boolean!",
-    "defaultValue": null
-  }
-],
+var v0 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "pokemonSelected"
+},
 v1 = {
-  "kind": "ScalarField",
-  "alias": null,
-  "name": "id",
-  "args": null,
-  "storageKey": null
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "selectedPokemonID"
 },
 v2 = {
-  "kind": "ScalarField",
   "alias": null,
-  "name": "image",
   "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "image",
   "storageKey": null
 };
 return {
-  "kind": "Request",
-  "operationKind": "query",
-  "name": "AppRefetchQuery",
-  "id": null,
-  "text": "query AppRefetchQuery(\n  $selectedPokemonID: String!\n  $pokemonSelected: Boolean!\n) {\n  ...App_query_2W0AXX\n}\n\nfragment App_query_2W0AXX on Query {\n  ...PokeList_query\n  pokemon(id: $selectedPokemonID) @include(if: $pokemonSelected) {\n    ...DetailView_pokemon\n    id\n  }\n}\n\nfragment PokeList_query on Query {\n  pokemons(first: 151) {\n    id\n    ...PokeCell_pokemon\n  }\n}\n\nfragment DetailView_pokemon on Pokemon {\n  name\n  number\n  types\n  image\n  weaknesses\n}\n\nfragment PokeCell_pokemon on Pokemon {\n  id\n  image\n}\n",
-  "metadata": {},
   "fragment": {
+    "argumentDefinitions": [
+      (v0/*: any*/),
+      (v1/*: any*/)
+    ],
     "kind": "Fragment",
-    "name": "AppRefetchQuery",
-    "type": "Query",
     "metadata": null,
-    "argumentDefinitions": v0,
+    "name": "AppRefetchQuery",
     "selections": [
       {
-        "kind": "FragmentSpread",
-        "name": "App_query",
         "args": [
           {
             "kind": "Variable",
             "name": "pokemonSelected",
-            "variableName": "pokemonSelected",
-            "type": null
+            "variableName": "pokemonSelected"
           },
           {
             "kind": "Variable",
             "name": "selectedPokemonID",
-            "variableName": "selectedPokemonID",
-            "type": null
+            "variableName": "selectedPokemonID"
+          }
+        ],
+        "kind": "FragmentSpread",
+        "name": "App_query"
+      }
+    ],
+    "type": "Query",
+    "abstractKey": null
+  },
+  "kind": "Request",
+  "operation": {
+    "argumentDefinitions": [
+      (v1/*: any*/),
+      (v0/*: any*/)
+    ],
+    "kind": "Operation",
+    "name": "AppRefetchQuery",
+    "selections": [
+      {
+        "alias": null,
+        "args": [
+          {
+            "kind": "Literal",
+            "name": "first",
+            "value": 151
+          }
+        ],
+        "concreteType": "Pokemon",
+        "kind": "LinkedField",
+        "name": "pokemons",
+        "plural": true,
+        "selections": [
+          (v2/*: any*/),
+          (v3/*: any*/)
+        ],
+        "storageKey": "pokemons(first:151)"
+      },
+      {
+        "condition": "pokemonSelected",
+        "kind": "Condition",
+        "passingValue": true,
+        "selections": [
+          {
+            "alias": null,
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "id",
+                "variableName": "selectedPokemonID"
+              }
+            ],
+            "concreteType": "Pokemon",
+            "kind": "LinkedField",
+            "name": "pokemon",
+            "plural": false,
+            "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "name",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "number",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "types",
+                "storageKey": null
+              },
+              (v3/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "weaknesses",
+                "storageKey": null
+              },
+              (v2/*: any*/)
+            ],
+            "storageKey": null
           }
         ]
       }
     ]
   },
-  "operation": {
-    "kind": "Operation",
+  "params": {
+    "cacheID": "0da4464544b525164e701b7de408d13d",
+    "id": null,
+    "metadata": {},
     "name": "AppRefetchQuery",
-    "argumentDefinitions": v0,
-    "selections": [
-      {
-        "kind": "LinkedField",
-        "alias": null,
-        "name": "pokemons",
-        "storageKey": "pokemons(first:151)",
-        "args": [
-          {
-            "kind": "Literal",
-            "name": "first",
-            "value": 151,
-            "type": "Int!"
-          }
-        ],
-        "concreteType": "Pokemon",
-        "plural": true,
-        "selections": [
-          v1,
-          v2
-        ]
-      },
-      {
-        "kind": "Condition",
-        "passingValue": true,
-        "condition": "pokemonSelected",
-        "selections": [
-          {
-            "kind": "LinkedField",
-            "alias": null,
-            "name": "pokemon",
-            "storageKey": null,
-            "args": [
-              {
-                "kind": "Variable",
-                "name": "id",
-                "variableName": "selectedPokemonID",
-                "type": "String"
-              }
-            ],
-            "concreteType": "Pokemon",
-            "plural": false,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "name": "name",
-                "args": null,
-                "storageKey": null
-              },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "name": "number",
-                "args": null,
-                "storageKey": null
-              },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "name": "types",
-                "args": null,
-                "storageKey": null
-              },
-              v2,
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "name": "weaknesses",
-                "args": null,
-                "storageKey": null
-              },
-              v1
-            ]
-          }
-        ]
-      }
-    ]
+    "operationKind": "query",
+    "text": "query AppRefetchQuery(\n  $selectedPokemonID: String!\n  $pokemonSelected: Boolean!\n) {\n  ...App_query_2W0AXX\n}\n\nfragment App_query_2W0AXX on Query {\n  ...PokeList_query\n  pokemon(id: $selectedPokemonID) @include(if: $pokemonSelected) {\n    ...DetailView_pokemon\n    id\n  }\n}\n\nfragment DetailView_pokemon on Pokemon {\n  name\n  number\n  types\n  image\n  weaknesses\n}\n\nfragment PokeCell_pokemon on Pokemon {\n  id\n  image\n}\n\nfragment PokeList_query on Query {\n  pokemons(first: 151) {\n    id\n    ...PokeCell_pokemon\n  }\n}\n"
   }
 };
 })();

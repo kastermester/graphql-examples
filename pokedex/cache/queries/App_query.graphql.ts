@@ -1,76 +1,78 @@
 /* tslint:disable */
+/* eslint-disable */
+// @ts-nocheck
 
-import { ConcreteFragment } from "relay-runtime";
-import { DetailView_pokemon$ref } from "./DetailView_pokemon.graphql";
-import { PokeList_query$ref } from "./PokeList_query.graphql";
-declare const _App_query$ref: unique symbol;
-export type App_query$ref = typeof _App_query$ref;
+import { ReaderFragment } from "relay-runtime";
+import { FragmentRefs } from "relay-runtime";
 export type App_query = {
-    readonly pokemon?: ({
-        readonly " $fragmentRefs": DetailView_pokemon$ref;
-    }) | null;
-    readonly " $fragmentRefs": PokeList_query$ref;
-    readonly " $refType": App_query$ref;
+    readonly pokemon?: {
+        readonly " $fragmentRefs": FragmentRefs<"DetailView_pokemon">;
+    } | null;
+    readonly " $fragmentRefs": FragmentRefs<"PokeList_query">;
+    readonly " $refType": "App_query";
+};
+export type App_query$data = App_query;
+export type App_query$key = {
+    readonly " $data"?: App_query$data;
+    readonly " $fragmentRefs": FragmentRefs<"App_query">;
 };
 
 
 
-const node: ConcreteFragment = {
-  "kind": "Fragment",
-  "name": "App_query",
-  "type": "Query",
-  "metadata": null,
+const node: ReaderFragment = {
   "argumentDefinitions": [
     {
+      "defaultValue": false,
       "kind": "LocalArgument",
-      "name": "selectedPokemonID",
-      "type": "String",
-      "defaultValue": ""
+      "name": "pokemonSelected"
     },
     {
+      "defaultValue": "",
       "kind": "LocalArgument",
-      "name": "pokemonSelected",
-      "type": "Boolean",
-      "defaultValue": false
+      "name": "selectedPokemonID"
     }
   ],
+  "kind": "Fragment",
+  "metadata": null,
+  "name": "App_query",
   "selections": [
     {
+      "args": null,
       "kind": "FragmentSpread",
-      "name": "PokeList_query",
-      "args": null
+      "name": "PokeList_query"
     },
     {
+      "condition": "pokemonSelected",
       "kind": "Condition",
       "passingValue": true,
-      "condition": "pokemonSelected",
       "selections": [
         {
-          "kind": "LinkedField",
           "alias": null,
-          "name": "pokemon",
-          "storageKey": null,
           "args": [
             {
               "kind": "Variable",
               "name": "id",
-              "variableName": "selectedPokemonID",
-              "type": "String"
+              "variableName": "selectedPokemonID"
             }
           ],
           "concreteType": "Pokemon",
+          "kind": "LinkedField",
+          "name": "pokemon",
           "plural": false,
           "selections": [
             {
+              "args": null,
               "kind": "FragmentSpread",
-              "name": "DetailView_pokemon",
-              "args": null
+              "name": "DetailView_pokemon"
             }
-          ]
+          ],
+          "storageKey": null
         }
       ]
     }
-  ]
+  ],
+  "type": "Query",
+  "abstractKey": null
 };
 (node as any).hash = '14e4ae8fa7b4c254ceaab243e27cbb2f';
 export default node;

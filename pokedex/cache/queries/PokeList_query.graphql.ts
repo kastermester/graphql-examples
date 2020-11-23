@@ -1,57 +1,62 @@
 /* tslint:disable */
+/* eslint-disable */
+// @ts-nocheck
 
-import { ConcreteFragment } from "relay-runtime";
-import { PokeCell_pokemon$ref } from "./PokeCell_pokemon.graphql";
-declare const _PokeList_query$ref: unique symbol;
-export type PokeList_query$ref = typeof _PokeList_query$ref;
+import { ReaderFragment } from "relay-runtime";
+import { FragmentRefs } from "relay-runtime";
 export type PokeList_query = {
-    readonly pokemons: ReadonlyArray<({
+    readonly pokemons: ReadonlyArray<{
         readonly id: string;
-        readonly " $fragmentRefs": PokeCell_pokemon$ref;
-    }) | null> | null;
-    readonly " $refType": PokeList_query$ref;
+        readonly " $fragmentRefs": FragmentRefs<"PokeCell_pokemon">;
+    } | null> | null;
+    readonly " $refType": "PokeList_query";
+};
+export type PokeList_query$data = PokeList_query;
+export type PokeList_query$key = {
+    readonly " $data"?: PokeList_query$data;
+    readonly " $fragmentRefs": FragmentRefs<"PokeList_query">;
 };
 
 
 
-const node: ConcreteFragment = {
-  "kind": "Fragment",
-  "name": "PokeList_query",
-  "type": "Query",
-  "metadata": null,
+const node: ReaderFragment = {
   "argumentDefinitions": [],
+  "kind": "Fragment",
+  "metadata": null,
+  "name": "PokeList_query",
   "selections": [
     {
-      "kind": "LinkedField",
       "alias": null,
-      "name": "pokemons",
-      "storageKey": "pokemons(first:151)",
       "args": [
         {
           "kind": "Literal",
           "name": "first",
-          "value": 151,
-          "type": "Int!"
+          "value": 151
         }
       ],
       "concreteType": "Pokemon",
+      "kind": "LinkedField",
+      "name": "pokemons",
       "plural": true,
       "selections": [
         {
-          "kind": "ScalarField",
           "alias": null,
-          "name": "id",
           "args": null,
+          "kind": "ScalarField",
+          "name": "id",
           "storageKey": null
         },
         {
+          "args": null,
           "kind": "FragmentSpread",
-          "name": "PokeCell_pokemon",
-          "args": null
+          "name": "PokeCell_pokemon"
         }
-      ]
+      ],
+      "storageKey": "pokemons(first:151)"
     }
-  ]
+  ],
+  "type": "Query",
+  "abstractKey": null
 };
 (node as any).hash = 'edad1e6c4ea6ebf9966ca80491882b9c';
 export default node;

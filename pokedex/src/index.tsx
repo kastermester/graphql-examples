@@ -10,7 +10,7 @@ function fetchQuery(
 	operation: any,
 	variables: any,
 ) {
-	return fetch('https://graphql-pokemon.now.sh/', {
+	return fetch('https://graphql-pokemon2.vercel.app/', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
