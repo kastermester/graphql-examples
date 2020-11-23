@@ -1,13 +1,8 @@
-"""Represents a Pokémon's attack types"""
-type Attack {
-  """The name of this Pokémon attack"""
-  name: String
-
-  """The type of this Pokémon attack"""
-  type: String
-
-  """The damage of this Pokémon attack"""
-  damage: Int
+"""Query any Pokémon by number or name"""
+type Query {
+  query: Query
+  pokemons(first: Int!): [Pokemon]
+  pokemon(id: String, name: String): Pokemon
 }
 
 """Represents a Pokémon"""
@@ -57,15 +52,6 @@ type Pokemon {
   image: String
 }
 
-"""Represents a Pokémon's attack types"""
-type PokemonAttack {
-  """The fast attacks of this Pokémon"""
-  fast: [Attack]
-
-  """The special attacks of this Pokémon"""
-  special: [Attack]
-}
-
 """Represents a Pokémon's dimensions"""
 type PokemonDimension {
   """The minimum value of this dimension"""
@@ -75,6 +61,27 @@ type PokemonDimension {
   maximum: String
 }
 
+"""Represents a Pokémon's attack types"""
+type PokemonAttack {
+  """The fast attacks of this Pokémon"""
+  fast: [Attack]
+
+  """The special attacks of this Pokémon"""
+  special: [Attack]
+}
+
+"""Represents a Pokémon's attack types"""
+type Attack {
+  """The name of this Pokémon attack"""
+  name: String
+
+  """The type of this Pokémon attack"""
+  type: String
+
+  """The damage of this Pokémon attack"""
+  damage: Int
+}
+
 """Represents a Pokémon's requirement to evolve"""
 type PokemonEvolutionRequirement {
   """The amount of candy to evolve"""
@@ -82,11 +89,4 @@ type PokemonEvolutionRequirement {
 
   """The name of the candy to evolve"""
   name: String
-}
-
-"""Query any Pokémon by number or name"""
-type Query {
-  query: Query
-  pokemons(first: Int!): [Pokemon]
-  pokemon(id: String, name: String): Pokemon
 }
