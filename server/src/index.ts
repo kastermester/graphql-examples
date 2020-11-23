@@ -1,5 +1,5 @@
 import { ApolloServer } from 'apollo-server';
-import { makeExecutableSchema, IResolverObject } from 'graphql-tools';
+import { makeExecutableSchema, IObjectTypeResolver } from 'graphql-tools';
 import {
 	Person,
 	getPersonById,
@@ -23,12 +23,6 @@ type Query {
 
 type Mutation {
 	addPerson(name: String! age: Int): Person!
-	addPersonWithPayload(name: String! age: Int): AddPersonPayload!
-}
-
-type AddPersonPayload {
-	person: Person!
-	query: Query!
 }
 
 type Person {
@@ -46,37 +40,33 @@ const schema = makeExecutableSchema<GraphQLContext>({
 			person: (
 				_,
 				args: { id: number },
-				context,
 			): Promise<Person | null> => getPersonById(args.id),
 			allPeople: async (
 				_,
 				args: {},
-				context,
 			): Promise<(Person | null)[]> => {
 				const peopleIds = await getAllPeopleIds();
 				return getPeopleByIds(peopleIds);
 			},
-		} as IResolverObject<any, GraphQLContext>,
+		} as IObjectTypeResolver<any, GraphQLContext>,
 		Mutation: {
 			addPerson: (
 				_,
 				args: { name: string; age?: number | null },
-				context,
 			): Promise<Person> => addPerson(args.name, args.age),
-		} as IResolverObject<any, GraphQLContext>,
+		} as IObjectTypeResolver<any, GraphQLContext>,
 		Person: {
-			friends: async (person, _, context): Promise<(Person | null)[]> => {
+			friends: async (person, _): Promise<(Person | null)[]> => {
 				const friendIds = await getFriendIdsById(person.id);
 				return getPeopleByIds(friendIds);
 			},
-		} as IResolverObject<Person, GraphQLContext>,
+		} as IObjectTypeResolver<Person, GraphQLContext>,
 	},
 });
 
 async function run(): Promise<void> {
 	const server = new ApolloServer({
 		schema,
-		context: () => new GraphQLContext(),
 	});
 
 	server.listen({ port: 8080 }, () =>

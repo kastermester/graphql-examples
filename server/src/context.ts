@@ -7,30 +7,34 @@ import {
 } from './db';
 import DataLoader from 'dataloader';
 
+async function loadManyThrowFirstError<K, V>(dataLoader: DataLoader<K, V>, keys: readonly K[]): Promise<V[]> {
+	const result: V[] = [];
+	for (const item of await dataLoader.loadMany(keys)) {
+		if (item instanceof Error) {
+			throw item;
+		}
+		result.push(item);
+	}
+	return result;
+}
+
 export class GraphQLContext {
 	private readonly personLoader: DataLoader<
 		number,
 		Person | null
-	> = new DataLoader(async ids => {
-		const persons = await getPeopleByIds(ids);
-
-		return persons;
-	});
+	> = new DataLoader(ids => getPeopleByIds(ids));
 
 	private readonly friendLoader: DataLoader<
 		number,
 		number[]
-	> = new DataLoader(ids => {
-		return getFriendIdsByIds(ids);
-	});
+	> = new DataLoader(ids => getFriendIdsByIds(ids));
 
 	private readonly allPeopleLoader: DataLoader<
 		1,
 		(Person | null)[]
 	> = new DataLoader(async ids => {
 		const peopleIds = await getAllPeopleIds();
-
-		const allPeople = await this.personLoader.loadMany(peopleIds);
+		const allPeople = await loadManyThrowFirstError(this.personLoader, peopleIds);
 
 		return ids.map(_ => allPeople);
 	});
@@ -46,7 +50,7 @@ export class GraphQLContext {
 	public async loadFriends(person: Person): Promise<(Person | null)[]> {
 		const friends = await this.friendLoader.load(person.id);
 
-		return this.personLoader.loadMany(friends);
+		return loadManyThrowFirstError(this.personLoader, friends);
 	}
 
 	public addPerson(name: string, age?: number | null): Promise<Person> {

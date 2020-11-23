@@ -76,7 +76,7 @@ export async function getFriendIdsById(personId: number): Promise<number[]> {
 }
 
 export async function getPeopleByIds(
-	ids: number[],
+	ids: readonly number[],
 ): Promise<(Person | null)[]> {
 	console.log('Loading people: ' + JSON.stringify(ids));
 	await sleep(150);
@@ -96,7 +96,7 @@ export async function getAllPeopleIds(): Promise<number[]> {
 	return Array.from(people.keys());
 }
 
-export async function getFriendIdsByIds(ids: number[]): Promise<number[][]> {
+export async function getFriendIdsByIds(ids: readonly number[]): Promise<number[][]> {
 	console.log('Loading friends: ' + JSON.stringify(ids));
 	await sleep(150);
 
