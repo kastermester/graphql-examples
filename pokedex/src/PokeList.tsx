@@ -11,10 +11,10 @@ interface Props {
 }
 
 const PokeList: React.FC<Props> = (props) => {
-	if (props.isLoading) {
+	const {isLoading, query, selectPokemon} = props;
+	if (isLoading) {
 		return <section className="poke-list"><div>Loading...</div></section>;
 	}
-	const query = props.query;
 	const pokemons = query == null || query.pokemons == null ? [] : query.pokemons;
 	const cells = (pokemons || []).map(pokemon => {
 		if (pokemon == null) {
@@ -24,7 +24,7 @@ const PokeList: React.FC<Props> = (props) => {
 			<PokeCell
 				key={pokemon.id}
 				pokemon={pokemon}
-				selectPokemon={props.selectPokemon}
+				selectPokemon={selectPokemon}
 			/>
 		);
 	});

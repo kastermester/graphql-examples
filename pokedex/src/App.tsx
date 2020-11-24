@@ -12,6 +12,7 @@ interface Props {
 }
 
 const App: React.FC<Props> = (props) => {
+  const { relay, query, isLoading } = props;
   const [fetchingPokemon, setFetchingPokemon] = React.useState(false);
 
   const selectPokemon = React.useCallback((id: string) => {
@@ -19,15 +20,15 @@ const App: React.FC<Props> = (props) => {
       return;
     }
     setFetchingPokemon(true);
-    props.relay.refetch({
+    relay.refetch({
       pokemonSelected: true,
       selectedPokemonID: id,
     }, undefined, (err) => {
       setFetchingPokemon(false);
     });
-  }, [fetchingPokemon]);
+  }, [fetchingPokemon, relay]);
 
-  if (props.query == null || props.isLoading) {
+  if (query == null || isLoading) {
     return (
       <div className="App">
         <PokeList
@@ -42,12 +43,12 @@ const App: React.FC<Props> = (props) => {
   return (
     <div className="App">
       <PokeList
-        query={props.query || null}
-        isLoading={props.isLoading}
+        query={query || null}
+        isLoading={isLoading}
         selectPokemon={selectPokemon}
       />
       <DetailView
-        pokemon={props.query.pokemon || null}
+        pokemon={query.pokemon || null}
         isLoading={fetchingPokemon}
       />
     </div>

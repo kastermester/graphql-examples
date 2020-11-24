@@ -14,10 +14,10 @@ const PokeCell: React.FC<Props> = (props) => {
 		e.stopPropagation();
 		e.preventDefault();
 
-		props.selectPokemon(props.pokemon.id);
+		selectPokemon(pokemon.id);
 
 	}, [selectPokemon, pokemon]);
-	const { image } = props.pokemon;
+	const { image } = pokemon;
 	const style = { backgroundImage: `url(${image})` };
 
 	return <button onClick={handleClick} style={style} className="poke-cell"></button>;

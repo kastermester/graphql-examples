@@ -13,11 +13,12 @@ function flattenOptionalStringList(list: ReadonlyArray<(string | null)> | null):
 }
 
 const DetailView: React.FC<Props> = (props) => {
-	const className = "detail-view" + (props.isLoading ? ' loading' : '');
-	if (props.pokemon == null) {
+	const { isLoading, pokemon } = props;
+	const className = "detail-view" + (isLoading ? ' loading' : '');
+	if (pokemon == null) {
 		return <section className={className}></section>;
 	}
-	const { number, name, image, types, weaknesses } = props.pokemon;
+	const { number, name, image, types, weaknesses } = pokemon;
 
 
 	const typesToShow = flattenOptionalStringList(types);
