@@ -43,12 +43,12 @@ const App: React.FC<Props> = (props) => {
   return (
     <div className="App">
       <PokeList
-        query={query || null}
+        query={query ?? null}
         isLoading={isLoading}
         selectPokemon={selectPokemon}
       />
       <DetailView
-        pokemon={query.pokemon || null}
+        pokemon={query.pokemon ?? null}
         isLoading={fetchingPokemon}
       />
     </div>
