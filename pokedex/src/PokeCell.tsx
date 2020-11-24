@@ -8,20 +8,19 @@ interface Props {
 	pokemon: PokeCell_pokemon;
 }
 
-class PokeCell extends React.Component<Props> {
-	private handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+const PokeCell: React.FC<Props> = (props) => {
+	const { selectPokemon, pokemon} = props;
+	const handleClick = React.useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
 		e.stopPropagation();
 		e.preventDefault();
 
-		this.props.selectPokemon(this.props.pokemon.id);
-	}
+		props.selectPokemon(props.pokemon.id);
 
-	public render() {
-		const { image } = this.props.pokemon;
-		const style = { backgroundImage: `url(${image})` };
+	}, [selectPokemon, pokemon]);
+	const { image } = props.pokemon;
+	const style = { backgroundImage: `url(${image})` };
 
-		return <button onClick={this.handleClick} style={style} className="poke-cell"></button>
-	}
+	return <button onClick={handleClick} style={style} className="poke-cell"></button>;
 };
 
 export default createFragmentContainer(

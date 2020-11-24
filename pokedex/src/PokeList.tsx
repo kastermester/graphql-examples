@@ -10,32 +10,30 @@ interface Props {
 	query: PokeList_query | null;
 }
 
-class PokeList extends React.Component<Props> {
-	public render() {
-		if (this.props.isLoading) {
-			return <section className="poke-list"><div>Loading...</div></section>;
-		}
-		const query = this.props.query;
-		const pokemons = query == null || query.pokemons == null ? [] : query.pokemons;
-		const cells = (pokemons || []).map(pokemon => {
-			if (pokemon == null) {
-				return null;
-			}
-			return (
-				<PokeCell
-					key={pokemon.id}
-					pokemon={pokemon}
-					selectPokemon={this.props.selectPokemon}
-				/>
-			);
-		});
-
-		return (
-			<section className="poke-list">
-				{cells}
-			</section>
-		)
+const PokeList: React.FC<Props> = (props) => {
+	if (props.isLoading) {
+		return <section className="poke-list"><div>Loading...</div></section>;
 	}
+	const query = props.query;
+	const pokemons = query == null || query.pokemons == null ? [] : query.pokemons;
+	const cells = (pokemons || []).map(pokemon => {
+		if (pokemon == null) {
+			return null;
+		}
+		return (
+			<PokeCell
+				key={pokemon.id}
+				pokemon={pokemon}
+				selectPokemon={props.selectPokemon}
+			/>
+		);
+	});
+
+	return (
+		<section className="poke-list">
+			{cells}
+		</section>
+	)
 }
 
 export default createFragmentContainer(

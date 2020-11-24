@@ -11,71 +11,48 @@ interface Props {
   relay: RelayRefetchProp;
 }
 
-interface State {
-  fetchingPokemon: boolean;
-}
+const App: React.FC<Props> = (props) => {
+  const [fetchingPokemon, setFetchingPokemon] = React.useState(false);
 
-class App extends React.Component<Props, State> {
-  public constructor(props: Props) {
-    super(props);
-    this.state = {
-      fetchingPokemon: false
-    };
-  }
-
-  selectPokemon = (id: string) => {
-    if (this.state.fetchingPokemon) {
+  const selectPokemon = React.useCallback((id: string) => {
+    if (fetchingPokemon) {
       return;
     }
-    this.setState(
-      {
-        fetchingPokemon: true
-      },
-      () => {
-        this.props.relay.refetch(
-          {
-            pokemonSelected: true,
-            selectedPokemonID: id
-          },
-          undefined,
-          () => {
-            this.setState({
-              fetchingPokemon: false
-            });
-          }
-        );
-      }
-    );
-  };
+    setFetchingPokemon(true);
+    props.relay.refetch({
+      pokemonSelected: true,
+      selectedPokemonID: id,
+    }, undefined, (err) => {
+      setFetchingPokemon(false);
+    });
+  }, [fetchingPokemon]);
 
-  render() {
-    if (this.props.query == null || this.props.isLoading) {
-      return (
-        <div className="App">
-          <PokeList
-            query={null}
-            selectPokemon={this.selectPokemon}
-            isLoading={true}
-          />
-          <DetailView pokemon={null} isLoading={false} />
-        </div>
-      );
-    }
+  if (props.query == null || props.isLoading) {
     return (
       <div className="App">
         <PokeList
-          query={this.props.query || null}
-          isLoading={this.props.isLoading}
-          selectPokemon={this.selectPokemon}
+          query={null}
+          selectPokemon={selectPokemon}
+          isLoading={true}
         />
-        <DetailView
-          pokemon={this.props.query.pokemon || null}
-          isLoading={this.state.fetchingPokemon}
-        />
+        <DetailView pokemon={null} isLoading={false} />
       </div>
     );
   }
-}
+  return (
+    <div className="App">
+      <PokeList
+        query={props.query || null}
+        isLoading={props.isLoading}
+        selectPokemon={selectPokemon}
+      />
+      <DetailView
+        pokemon={props.query.pokemon || null}
+        isLoading={fetchingPokemon}
+      />
+    </div>
+  );
+};
 
 export default createRefetchContainer(
   App,

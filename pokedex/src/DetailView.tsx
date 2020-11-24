@@ -12,30 +12,28 @@ function flattenOptionalStringList(list: ReadonlyArray<(string | null)> | null):
 	return list == null ? '' : list.filter(i => i != null).join(', ');
 }
 
-class DetailView extends React.Component<Props> {
-	public render() {
-		const className = "detail-view" + (this.props.isLoading ? ' loading' : '');
-		if (this.props.pokemon == null) {
-			return <section className={className}></section>;
-		}
-		const { number, name, image, types, weaknesses } = this.props.pokemon;
-
-
-		const typesToShow = flattenOptionalStringList(types);
-		const weaknessesToShow = flattenOptionalStringList(weaknesses);
-
-		const imageToShow = image == null ? <div className="sprite-image" /> : <img src={image} className='sprite-image' alt="sprite" />;
-
-		return (
-			<section className={className}>
-				{imageToShow}
-				<div className='data-wrapper'>
-					<h1 className='data-name'>ID: {number} {name}</h1>
-					<p className="data-char">Types: {typesToShow}<br />Weaknesses: {weaknessesToShow}</p>
-				</div>
-			</section>
-		)
+const DetailView: React.FC<Props> = (props) => {
+	const className = "detail-view" + (props.isLoading ? ' loading' : '');
+	if (props.pokemon == null) {
+		return <section className={className}></section>;
 	}
+	const { number, name, image, types, weaknesses } = props.pokemon;
+
+
+	const typesToShow = flattenOptionalStringList(types);
+	const weaknessesToShow = flattenOptionalStringList(weaknesses);
+
+	const imageToShow = image == null ? <div className="sprite-image" /> : <img src={image} className='sprite-image' alt="sprite" />;
+
+	return (
+		<section className={className}>
+			{imageToShow}
+			<div className='data-wrapper'>
+				<h1 className='data-name'>ID: {number} {name}</h1>
+				<p className="data-char">Types: {typesToShow}<br />Weaknesses: {weaknessesToShow}</p>
+			</div>
+		</section>
+	);
 }
 
 export default createFragmentContainer(
